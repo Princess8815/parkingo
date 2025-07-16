@@ -14,14 +14,33 @@ class BingoDatabase {
 
   async initializeFirebase() {
     try {
-      // Check if Firebase is loaded
-      if (typeof firebase !== 'undefined' && firebase.database) {
-        this.database = firebase.database()
-        this.isOffline = false
-        console.log('Firebase initialized successfully')
+      // Check if Firebase manager is available
+      if (typeof FirebaseManager !== 'undefined') {
+        const firebaseManager = new FirebaseManager()
+        const isReady = await firebaseManager.initialize()
+
+        if (isReady) {
+          this.database = firebaseManager.getDatabase()
+          this.isOffline = false
+          console.log('Firebase database initialized successfully')
+        } else {
+          throw new Error('Firebase manager initialization failed')
+        }
+      } else {
+        // Fallback to direct Firebase check
+        if (typeof firebase !== 'undefined' && firebase.database) {
+          this.database = firebase.database()
+          this.isOffline = false
+          console.log('Firebase initialized successfully (fallback)')
+        } else {
+          throw new Error('Firebase not available')
+        }
       }
     } catch (error) {
-      console.log('Firebase not available, running in offline mode')
+      console.log(
+        'Firebase not available, running in offline mode:',
+        error.message
+      )
       this.isOffline = true
     }
   }
@@ -165,6 +184,57 @@ class BingoDatabase {
     } catch (error) {
       console.error('Failed to load progress from database:', error)
       return JSON.parse(localStorage.getItem('bingoProgress') || '[]')
+    }
+  }
+
+  async saveGameState(gameState) {
+    if (this.isOffline) {
+      localStorage.setItem('gameState', JSON.stringify(gameState))
+      return
+    }
+
+    try {
+      const stateRef = this.database.ref(
+        `games/${this.gameId}/players/${this.playerId}/gameState`
+      )
+      await stateRef.set(gameState)
+    } catch (error) {
+      console.error('Failed to save game state to database:', error)
+      localStorage.setItem('gameState', JSON.stringify(gameState))
+    }
+  }
+
+  async loadGameState() {
+    if (this.isOffline) {
+      return JSON.parse(localStorage.getItem('gameState') || 'null')
+    }
+
+    try {
+      const stateRef = this.database.ref(
+        `games/${this.gameId}/players/${this.playerId}/gameState`
+      )
+      const snapshot = await stateRef.once('value')
+      return snapshot.val()
+    } catch (error) {
+      console.error('Failed to load game state from database:', error)
+      return JSON.parse(localStorage.getItem('gameState') || 'null')
+    }
+  }
+
+  async saveBingoWin() {
+    if (this.isOffline) {
+      localStorage.setItem('bingoWinner', this.playerId)
+      return
+    }
+
+    try {
+      const winRef = this.database.ref(`games/${this.gameId}/winner`)
+      await winRef.set({
+        playerId: this.playerId,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+      })
+    } catch (error) {
+      console.error('Failed to save bingo win to database:', error)
     }
   }
 

@@ -32,81 +32,108 @@ h1 {
   text-shadow: 1px 1px #333;
 }
 
+/* Bingo Grid Container */
 .bingo-card-container {
-  width: 100%;
   max-width: 600px;
-  margin: 0 auto 30px auto;
-  background: rgba(255, 255, 255, 0.1);
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* Bingo Header Row - 6 columns: blank + B I N G O */
 .bingo-header {
   display: grid;
-  grid-template-columns: 50px repeat(5, 1fr);
+  grid-template-columns: 50px repeat(5, 1fr); /* blank space + 5 columns */
   gap: 2px;
   margin-bottom: 2px;
 }
 
 .header-cell {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  text-align: center;
+  background: #ff6b6b;
+  color: white;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 15px 5px;
   border-radius: 8px;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
 }
 
+.header-cell:first-child {
+  background: transparent; /* Make the first cell invisible */
+}
+
+/* Main Bingo Grid - 6 columns: row numbers + 5 bingo squares */
 .bingo-grid {
   display: grid;
-  grid-template-columns: 50px repeat(5, 1fr);
+  grid-template-columns: 50px repeat(5, 1fr); /* row number + 5 columns */
   gap: 2px;
+  margin-bottom: 20px;
 }
 
-.bingo-cell {
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
-  padding: 15px 8px;
-  text-align: center;
-  font-size: 0.85em;
-  font-weight: 500;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-height: 80px;
+/* Row Headers (1, 2, 3, 4, 5) */
+.row-header {
+  background: #667eea;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
   display: flex;
   align-items: center;
   justify-content: center;
-  word-wrap: break-word;
-  hyphens: auto;
-  line-height: 1.2;
-}
-
-.bingo-cell:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.bingo-cell.completed {
-  background: #4caf50;
-  color: white;
-  font-weight: bold;
-}
-
-.bingo-cell.row-header {
-  background: rgba(0, 0, 0, 0.3);
-  color: white;
-  font-weight: bold;
-  font-size: 1.1em;
+  border-radius: 8px;
   cursor: default;
 }
 
-.bingo-cell.row-header:hover {
-  transform: none;
-  box-shadow: none;
+/* Bingo Squares */
+.bingo-square {
+  aspect-ratio: 1;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  padding: 5px;
+  min-height: 80px;
+  color: #333;
+  position: relative;
+}
+
+.bingo-square:hover {
+  border-color: #ff6b6b;
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.bingo-square:active {
+  transform: scale(0.98);
+}
+
+.bingo-square.marked {
+  background: #4caf50;
+  color: white;
+  border-color: #45a049;
+}
+
+.bingo-square.marked::after {
+  content: '✓';
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.bingo-square.free {
+  background: #ffeb3b;
+  border-color: #fbc02d;
+  font-weight: bold;
+  color: #333;
 }
 
 .card-buttons {
@@ -209,7 +236,9 @@ h1 {
 }
 
 .game-status {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
   margin-bottom: 20px;
   padding: 10px;
   background: rgba(255, 255, 255, 0.1);
@@ -223,6 +252,258 @@ h1 {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
   font-size: 0.9em;
+}
+
+/* Challenge and deck management */
+.deck-management {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}
+
+.current-challenge {
+  background: rgba(255, 193, 7, 0.9);
+  color: #333;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+}
+
+.deck-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.deck-button {
+  background: #9c27b0;
+  border: none;
+  padding: 12px 15px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.deck-button:hover {
+  background: #7b1fa2;
+  transform: translateY(-2px);
+}
+
+.deck-button:disabled {
+  background: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.challenge-display {
+  background: rgba(255, 87, 34, 0.9);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px 0;
+  display: none;
+}
+
+.perk-display {
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px 0;
+  display: none;
+}
+
+.card-counter {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Bingo detection */
+.bingo-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: none;
+  animation: bingoAnimation 0.5s ease-out;
+}
+
+@keyframes bingoAnimation {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.bingo-alert h2 {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.bingo-alert p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.bingo-alert button {
+  background: white;
+  color: #ff6b6b;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bingo-alert button:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.end-game-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin: 5px;
+  transition: background 0.3s ease;
+}
+
+.end-game-button:hover {
+  background: #c82333;
+}
+
+/* Game mode selection styles */
+.game-mode-selection {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #333;
+}
+
+.game-mode-selection h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.mode-button {
+  background: linear-gradient(135deg, #3366cc, #99ccff);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mode-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #2255bb, #88bbff);
+}
+
+.multiplayer-options {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #333;
+}
+
+.multiplayer-options h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.join-game-section {
+  margin: 20px 0;
+}
+
+.join-game-section input {
+  padding: 10px;
+  margin: 5px;
+  border: 2px solid #3366cc;
+  border-radius: 5px;
+  font-size: 1.1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.room-button {
+  background: linear-gradient(135deg, #3366cc, #99ccff);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  margin: 8px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.room-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #2255bb, #88bbff);
+}
+
+.back-button {
+  background: linear-gradient(135deg, #666, #999);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: linear-gradient(135deg, #555, #888);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 600px) {
@@ -303,5 +584,35 @@ h1 {
     margin: 20px auto;
     width: 95%;
     padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bingo-grid {
+    gap: 1px;
+  }
+
+  .grid-item {
+    font-size: 0.8em;
+    min-height: 60px;
+    padding: 3px;
+  }
+
+  .header-cell {
+    font-size: 1.2em;
+    padding: 10px 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-item {
+    font-size: 0.7em;
+    min-height: 50px;
+    padding: 2px;
+  }
+
+  .header-cell {
+    font-size: 1em;
+    padding: 8px 2px;
   }
 }

@@ -1,7 +1,22 @@
 class RoomSetup {
   constructor() {
-    this.database = new BingoDatabase()
+    this.database = null
     this.gameInfo = null
+    this.initializeFirebaseAndDatabase()
+  }
+
+  async initializeFirebaseAndDatabase() {
+    // Initialize Firebase
+    if (typeof FirebaseManager !== 'undefined') {
+      const firebaseManager = new FirebaseManager()
+      await firebaseManager.initialize()
+    }
+
+    // Initialize database
+    this.database = new BingoDatabase()
+    await this.database.initializeFirebase()
+
+    // Set up event listeners after database is ready
     this.initializeEventListeners()
   }
 
@@ -87,8 +102,8 @@ class RoomSetup {
       localStorage.setItem('playerId', this.gameInfo.playerId)
       localStorage.setItem('isHost', 'false')
 
-      // Go directly to template selection
-      window.location.href = 'bingo-card.html'
+      // Go directly to game page
+      window.location.href = '/pages/game.html'
     } catch (error) {
       this.showError('Failed to join game: ' + error.message)
     }
@@ -100,12 +115,12 @@ class RoomSetup {
     localStorage.removeItem('playerId')
     localStorage.removeItem('isHost')
 
-    // Go to template selection
-    window.location.href = 'bingo-card.html'
+    // Go to game page
+    window.location.href = '/pages/game.html'
   }
 
   startGame() {
-    window.location.href = 'bingo-card.html'
+    window.location.href = '/pages/game.html'
   }
 
   async updatePlayerCount() {

@@ -13,9 +13,17 @@
         Get ready for the ultimate park adventure game. Complete rides,
         challenges, and punishments to become the Theme Park Champion!
       </p>
-      <button class="start-button">
-        <a href="/pages/room-setup.html">Start Game</a>
-      </button>
+      <button class="start-button" onclick="startGame()">Start Game</button>
     </div>
+
+    <script>
+      function startGame() {
+        // Clear any old data
+        localStorage.clear()
+
+        // Go directly to game
+        window.location.href = '/pages/game.html'
+      }
+    </script>
   </body>
 </html>
