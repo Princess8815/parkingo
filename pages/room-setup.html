@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Theme Park Bingo - Room Setup</title>
-    <link rel="stylesheet" href="/styles/room.css" />
+    <link rel="stylesheet" href="/parkingo/styles/room.css" />
   </head>
   <body>
     <div class="room-container">
@@ -61,7 +61,7 @@
           Experience the ultimate Six Flags adventure with all the latest rides
           and attractions!
         </p>
-        <a href="/pages/game.html?template=sfga2025" class="play-button"
+        <a href="/parkingo/pages/game.html?template=sfga2025" class="play-button"
           >Play Six Flags</a
         >
       </div>
@@ -72,13 +72,13 @@
           Conquer the gods' playground with mythical rides and legendary
           challenges!
         </p>
-        <a href="/pages/game.html?template=mtolympus" class="play-button"
+        <a href="/parkingo/pages/game.html?template=mtolympus" class="play-button"
           >Play Mt. Olympus</a
         >
       </div>
 
       <div class="back-link">
-        <a href="/index.html">← Back to Home</a>
+        <a href="/parkingo/index.html">← Back to Home</a>
       </div>
     </div>
 
@@ -86,7 +86,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
     <script>
-      // Firebase configuration - USE YOUR ACTUAL CONFIG
       const firebaseConfig = {
         apiKey: 'AIzaSyASzLzGNP_099SC4Qr9szdxyuFArpsgv1A',
         authDomain: 'theme-park-bingo.firebaseapp.com',
@@ -98,19 +97,16 @@
         measurementId: 'G-M64J9321TE',
       }
 
-      // Initialize Firebase
       try {
         firebase.initializeApp(firebaseConfig)
         console.log('Firebase initialized successfully in room-setup')
       } catch (error) {
-        console.log(
-          'Firebase initialization failed, using offline mode:',
-          error
-        )
+        console.log('Firebase initialization failed, using offline mode:', error)
       }
     </script>
 
-    <script src="/script/database.js"></script>
-    <script src="/script/room-setup.js"></script>
+    <script src="/parkingo/script/database.js"></script>
+    <script src="/parkingo/script/room-setup.js"></script>
   </body>
 </html>
+
