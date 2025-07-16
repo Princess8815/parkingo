@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <base href="/parkingo/">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Theme Park Bingo Intro</title>
-    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/parkingo/styles/main.css" />
   </head>
   <body>
     <div class="intro-container">
@@ -19,11 +20,12 @@
     <script>
       function startGame() {
         // Clear any old data
-        localStorage.clear()
+        localStorage.clear();
 
         // Go directly to game
-        window.location.href = '/pages/game.html'
+        window.location.href = "/parkingo/pages/game.html"; // 🔥 ABSOLUTE PATH!
       }
     </script>
   </body>
 </html>
+
