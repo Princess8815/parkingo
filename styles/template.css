@@ -1,0 +1,57 @@
+body {
+    background: linear-gradient(135deg, #66ccff, #3366cc);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .template-page-container {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+  
+  .template-page-container h1 {
+    margin-bottom: 20px;
+    font-size: 2.2em;
+    text-shadow: 2px 2px #000;
+  }
+  
+  .template-selector {
+    margin: 20px auto;
+  }
+  
+  .template-selector label {
+    font-size: 1.2em;
+    margin-right: 10px;
+  }
+  
+  .template-selector select {
+    padding: 8px 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .select-button {
+    margin-top: 20px;
+    background: #ff6600;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .select-button:hover {
+    background: #cc5200;
+  }

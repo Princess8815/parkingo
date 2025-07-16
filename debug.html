@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Debug Multiplayer Flow</title>
+  </head>
+  <body>
+    <h1>Debug Multiplayer Flow</h1>
+    <div>
+      <button onclick="testHostFlow()">Test Host Flow</button>
+      <button onclick="testPlayerFlow()">Test Player Flow</button>
+    </div>
+    <div id="debug-output"></div>
+
+    <script>
+      function log(message) {
+        const output = document.getElementById('debug-output')
+        output.innerHTML +=
+          '<p>' + new Date().toLocaleTimeString() + ': ' + message + '</p>'
+        console.log(message)
+      }
+
+      function testHostFlow() {
+        log('Testing host flow...')
+        log('Host creates game and waits for players')
+        log('Host should see waiting room with Start Game button')
+      }
+
+      function testPlayerFlow() {
+        log('Testing player flow...')
+        log('Player joins game')
+        log('Player should see waiting room without Start Game button')
+      }
+    </script>
+  </body>
+</html>

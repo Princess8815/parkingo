@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theme Park Bingo - Room Setup</title>
+    <link rel="stylesheet" href="/styles/room.css" />
+  </head>
+  <body>
+    <div class="room-container">
+      <h1>🎢 Game Room Setup 🎠</h1>
+
+      <div class="setup-options">
+        <div class="option-card">
+          <h2>Create New Game</h2>
+          <p>Start a new game room that others can join</p>
+          <button id="createGame" class="room-button">Create Game Room</button>
+        </div>
+
+        <div class="option-card">
+          <h2>Join Existing Game</h2>
+          <p>Enter a game code to join someone else's game</p>
+          <input
+            type="text"
+            id="gameCode"
+            placeholder="Enter Game Code"
+            maxlength="6"
+          />
+          <button id="joinGame" class="room-button">Join Game</button>
+        </div>
+
+        <div class="option-card">
+          <h2>Play Solo</h2>
+          <p>Play alone without multiplayer features</p>
+          <button id="playSolo" class="room-button">Play Solo</button>
+        </div>
+      </div>
+
+      <div id="gameInfo" class="game-info" style="display: none">
+        <h3>Game Room Created!</h3>
+        <p>Share this code with other players:</p>
+        <div class="game-code" id="displayGameCode"></div>
+        <p class="players-info">
+          Players in room: <span id="playerCount">1</span>
+        </p>
+        <button id="startGame" class="room-button">Start Game</button>
+      </div>
+
+      <div id="loadingInfo" class="loading-info" style="display: none">
+        <p>Setting up game room...</p>
+      </div>
+
+      <div id="errorInfo" class="error-info" style="display: none">
+        <p id="errorMessage"></p>
+        <button id="retryButton" class="room-button">Try Again</button>
+      </div>
+
+      <div class="option-card">
+        <h2>🎡 Six Flags Great Adventure 2025</h2>
+        <p>
+          Experience the ultimate Six Flags adventure with all the latest rides
+          and attractions!
+        </p>
+        <a href="/pages/game.html?template=sfga2025" class="play-button"
+          >Play Six Flags</a
+        >
+      </div>
+
+      <div class="option-card">
+        <h2>🏛️ Mt. Olympus</h2>
+        <p>
+          Conquer the gods' playground with mythical rides and legendary
+          challenges!
+        </p>
+        <a href="/pages/game.html?template=mtolympus" class="play-button"
+          >Play Mt. Olympus</a
+        >
+      </div>
+
+      <div class="back-link">
+        <a href="/index.html">← Back to Home</a>
+      </div>
+    </div>
+
+    <!-- Firebase configuration -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script>
+      // Firebase configuration - USE YOUR ACTUAL CONFIG
+      const firebaseConfig = {
+        apiKey: 'AIzaSyASzLzGNP_099SC4Qr9szdxyuFArpsgv1A',
+        authDomain: 'theme-park-bingo.firebaseapp.com',
+        databaseURL: 'https://theme-park-bingo-default-rtdb.firebaseio.com',
+        projectId: 'theme-park-bingo',
+        storageBucket: 'theme-park-bingo.firebasestorage.app',
+        messagingSenderId: '826233039245',
+        appId: '1:826233039245:web:0e23020d5a3f2f45bd35c4',
+        measurementId: 'G-M64J9321TE',
+      }
+
+      // Initialize Firebase
+      try {
+        firebase.initializeApp(firebaseConfig)
+        console.log('Firebase initialized successfully in room-setup')
+      } catch (error) {
+        console.log(
+          'Firebase initialization failed, using offline mode:',
+          error
+        )
+      }
+    </script>
+
+    <script src="/script/database.js"></script>
+    <script src="/script/room-setup.js"></script>
+  </body>
+</html>
