@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theme Park Bingo – Game</title>
+    <link rel="stylesheet" href="/styles/game.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>🎢 Theme Park Bingo Game 🎠</h1>
+
+      <!-- Game mode selection -->
+      <div id="gameModeSelection" class="game-mode-selection">
+        <h2>Choose Game Mode</h2>
+        <button class="mode-button" onclick="startSoloGame()">Play Solo</button>
+        <button class="mode-button" onclick="showMultiplayerOptions()">
+          Multiplayer
+        </button>
+      </div>
+
+      <!-- Multiplayer options -->
+      <div
+        id="multiplayerOptions"
+        class="multiplayer-options"
+        style="display: none"
+      >
+        <h3>Multiplayer Options</h3>
+        <div class="player-name-section">
+          <label for="playerName">Your Name:</label>
+          <input
+            type="text"
+            id="playerName"
+            placeholder="Enter your name"
+            maxlength="20"
+          />
+        </div>
+        <button class="room-button" onclick="createMultiplayerGame()">
+          Create Game Room
+        </button>
+        <div class="join-game-section">
+          <input
+            type="text"
+            id="joinGameCode"
+            placeholder="Enter Game Code"
+            maxlength="6"
+          />
+          <button class="room-button" onclick="joinMultiplayerGame()">
+            Join Game
+          </button>
+        </div>
+        <button class="back-button" onclick="showGameModeSelection()">
+          ← Back
+        </button>
+      </div>
+
+      <!-- Game status display -->
+      <div id="gameStatus" class="game-status" style="display: none">
+        <span id="connectionStatus">Solo Mode</span>
+        <span id="gameCode" style="display: none"></span>
+        <span id="playerCount" style="display: none"></span>
+      </div>
+
+      <div
+        class="bingo-card-container"
+        id="bingoCardContainer"
+        style="display: none"
+      >
+        <div class="bingo-header">
+          <div class="header-cell"></div>
+          <!-- Blank upper left corner -->
+          <div class="header-cell">B</div>
+          <div class="header-cell">I</div>
+          <div class="header-cell">N</div>
+          <div class="header-cell">G</div>
+          <div class="header-cell">O</div>
+        </div>
+        <div class="bingo-grid" id="bingoGrid">
+          <!-- Grid items will be populated by JavaScript -->
+        </div>
+        <div class="card-buttons">
+          <button class="card-button perks" onclick="showPerks()">
+            View Perks
+          </button>
+          <button class="card-button challenges" onclick="showChallenges()">
+            View Challenges
+          </button>
+          <button class="card-button punishments" onclick="showPunishments()">
+            View Punishments
+          </button>
+          <button class="card-button hand" onclick="showHand()">
+            Current Hand
+          </button>
+          <button class="new-card-button" onclick="generateNewCard()">
+            New Card
+          </button>
+          <button class="end-game-button" onclick="endGame()">End Game</button>
+        </div>
+
+        <!-- Deck Management Section -->
+        <div class="deck-management">
+          <!-- Group Ride Selection -->
+          <div class="group-ride-selection" id="groupRideSelection">
+            <h3>🎢 Group Ride Selection</h3>
+            <p>Choose a ride for the entire group:</p>
+            <input
+              type="text"
+              id="selectedRide"
+              placeholder="Enter ride name (e.g., 'Goliath')"
+              list="ridesList"
+            />
+            <datalist id="ridesList">
+              <!-- Will be populated by JavaScript -->
+            </datalist>
+            <div class="ride-buttons">
+              <button class="ride-button" onclick="announceGroupRide()">
+                📢 Announce Ride to Group
+              </button>
+              <button class="ride-button" onclick="confirmRiderParticipation()">
+                ✅ I Rode This Ride
+              </button>
+            </div>
+            <div id="currentGroupRide" style="display: none">
+              <strong>Current Group Ride:</strong>
+              <span id="groupRideText">None</span>
+              <button onclick="completeGroupRide()" class="complete-ride-btn">
+                Complete Ride
+              </button>
+            </div>
+          </div>
+
+          <div class="current-challenge" id="currentChallenge">
+            <strong>Current Challenge:</strong>
+            <span id="challengeText">None</span>
+          </div>
+
+          <div class="deck-buttons">
+            <button
+              class="deck-button"
+              id="drawChallengeBtn"
+              onclick="drawChallengeCard()"
+            >
+              Draw Challenge Card
+            </button>
+            <button
+              class="deck-button"
+              id="drawPerkBtn"
+              onclick="drawPerkCard()"
+              disabled
+            >
+              Draw Perk Card
+            </button>
+            <button
+              class="deck-button"
+              id="completeChallengeBtn"
+              onclick="completeChallenge()"
+              disabled
+            >
+              Complete Challenge
+            </button>
+            <button
+              class="deck-button"
+              id="markRideBtn"
+              onclick="markRideCompleted()"
+            >
+              Mark Individual Ride
+            </button>
+          </div>
+
+          <div class="challenge-display" id="challengeDisplay"></div>
+          <div class="perk-display" id="perkDisplay"></div>
+
+          <div class="card-counter">
+            Challenge Cards Left: <span id="challengeCount">0</span> | Perk
+            Cards Left: <span id="perkCount">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bingo Alert -->
+      <div class="bingo-alert" id="bingoAlert">
+        <h2>🎉 BINGO! 🎉</h2>
+        <p>Congratulations! You've achieved bingo!</p>
+        <button onclick="closeBingoAlert()">Continue Playing</button>
+      </div>
+    </div>
+
+    <button id="rulesButton" class="rules-button">Rules</button>
+
+    <div id="rulesModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>🎮 Six Flags Secret Quest – Official Rules (Final)</h2>
+        <p>
+          🔢 <strong>Setup</strong><br />
+          Each player has a secret bingo card containing:<br />
+          • 5 roller coasters<br />
+          • 10 flat or water rides<br />
+          • 10 specific challenge squares (each named with a unique
+          challenge)<br />
+          No one sees their own card.<br />
+          Each player is assigned to track another player’s card.
+        </p>
+        <p>
+          ▶️ <strong>How to Play</strong><br />
+          1. Any player chooses a ride or attraction for the group.<br />
+          Only players who actually ride it draw cards.<br />
+          The ride is marked off on everyone’s card if it appears.<br /><br />
+          2. After riding:<br />
+          Each rider draws a Challenge Card from the deck.<br />
+          You can only hold 1 challenge at a time.<br />
+          You must complete it before riding again.<br />
+          If you draw a new challenge while holding one, discard the new draw
+          without looking.<br />
+          If the ride was a roller coaster, each rider also draws a Perk
+          Card.<br /><br />
+          3. Challenge Squares on Bingo Cards:<br />
+          Each challenge square has a specific challenge listed (e.g. "Find
+          something purple", "Compliment a stranger").<br />
+          When you draw a Challenge Card from the deck, it has a challenge name
+          matching those possible on bingo cards.<br />
+          Completing that specific challenge allows your tracker to mark off
+          that exact square on your bingo card if it is present.<br />
+          If your drawn challenge does not exist on your card, completing it
+          does not clear any square but is still required to continue.<br /><br />
+          4. Punishment Challenges are mixed into the challenge/perk deck:<br />
+          Must be completed immediately before continuing (e.g. speak in ride
+          sound effects for 5 mins).
+        </p>
+        <p>
+          🎯 <strong>Winning</strong><br />
+          The tracker announces when their assigned player achieves bingo.<br />
+          First to bingo wins the game.<br /><br />
+          Some rules may be adjusted based on template.
+        </p>
+      </div>
+    </div>
+
+    <!-- Firebase configuration -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script src="/script/firebase-config.js"></script>
+    <script src="/script/database.js"></script>
+    <script src="/script/6-flags.js"></script>
+    <script>
+      // Rules modal logic
+      const rulesModal = document.getElementById('rulesModal')
+      const rulesButton = document.getElementById('rulesButton')
+      const closeButton = document.querySelector('.close-button')
+
+      rulesButton.onclick = function () {
+        rulesModal.style.display = 'block'
+      }
+
+      closeButton.onclick = function () {
+        rulesModal.style.display = 'none'
+      }
+
+      window.onclick = function (event) {
+        if (event.target == rulesModal) {
+          rulesModal.style.display = 'none'
+        }
+      }
+
+      // The 6-flags.js file will handle game initialization and show game mode selection
+    </script>
+  </body>
+</html>
