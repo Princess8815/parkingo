@@ -4,14 +4,14 @@
 class FirebaseManager {
   constructor() {
     this.firebaseConfig = {
-      apiKey: 'AIzaSyASzLzGNP_099SC4Qr9szdxyuFArpsgv1A',
+      apiKey: '',
       authDomain: 'theme-park-bingo.firebaseapp.com',
       databaseURL: 'https://theme-park-bingo-default-rtdb.firebaseio.com',
       projectId: 'theme-park-bingo',
       storageBucket: 'theme-park-bingo.firebasestorage.app',
-      messagingSenderId: '826233039245',
-      appId: '1:826233039245:web:0e23020d5a3f2f45bd35c4',
-      measurementId: 'G-M64J9321TE',
+      messagingSenderId: '',
+      appId: '',
+      measurementId: '',
     }
 
     this.isInitialized = false
